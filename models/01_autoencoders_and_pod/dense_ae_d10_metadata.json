@@ -1,0 +1,14 @@
+{
+    "model_name": "dense_ae_d10",
+    "task": "non-linear dimensionality reduction (dense autoencoder)",
+    "latent_dim": 10,
+    "input_shape": [
+        128,
+        64,
+        2
+    ],
+    "n_train_snapshots": 800,
+    "n_val_snapshots": 200,
+    "final_training_loss": 0.0011146366596221924,
+    "final_validation_loss": 0.005019376054406166
+}

@@ -1,0 +1,5 @@
+operator,one_step_error,reconstruction_error,epochs
+linear A (base),0.5467783952401002,0.5364668648790081,
+non-linear MLP,0.590466300204302,0.48838964019269576,150.0
+"DMD (linear, POD rank d)",0.7210863692091198,,
+persistence,0.3660263577741174,,

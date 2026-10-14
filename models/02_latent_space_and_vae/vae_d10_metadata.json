@@ -1,0 +1,9 @@
+{
+    "model_name": "vae_d10",
+    "task": "variational autoencoder",
+    "latent_dim": 10,
+    "beta": 0.001,
+    "final_reconstruction_loss": 11.879749298095703,
+    "final_val_reconstruction_loss": 84.44361877441406,
+    "final_kl_loss": 1086.834716796875
+}

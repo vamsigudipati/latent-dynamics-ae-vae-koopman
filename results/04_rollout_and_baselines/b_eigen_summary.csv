@@ -1,0 +1,5 @@
+operator,seed,max_modulus,n_outside,n_on,n_inside
+DMD (POD rank 10),-1,0.9978299968612035,0,0,10
+Koopman AE,0,0.9895129799842834,0,0,10
+Koopman AE,1,1.0163486003875732,2,0,8
+Koopman AE,2,1.010707139968872,1,0,9

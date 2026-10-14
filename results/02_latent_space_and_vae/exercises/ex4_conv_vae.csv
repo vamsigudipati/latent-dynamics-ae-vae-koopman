@@ -1,0 +1,3 @@
+model,rel_error,params,epochs,train_s
+dense VAE (Section 12),0.44326594347404974,16810004,,
+conv VAE,0.43877530400098796,2042070,118.0,121.0

@@ -1,0 +1,28 @@
+seed,part,config,value,epochs
+0,base,Koopman AE one-step error,0.5467783952401002,217.0
+0,base,Koopman AE reconstruction error,0.5364668648790081,217.0
+0,base,max |eigenvalue| of A,0.9686047434806824,
+0,Exercise 1,non-linear operator one-step error,0.590466300204302,150.0
+0,Exercise 2 (contiguous rollout),Koopman n=1,1.022055162626757,
+0,Exercise 2 (contiguous rollout),Koopman n=5,1.1136279248816496,
+0,Exercise 2 (contiguous rollout),Koopman n=10,1.260912395586409,
+0,Exercise 5,Koopman one-step d=2,0.9072027027711732,150.0
+0,Exercise 5,Koopman one-step d=50,0.2468727015338081,150.0
+1,base,Koopman AE one-step error,0.512912240228083,204.0
+1,base,Koopman AE reconstruction error,0.5050434010427928,204.0
+1,base,max |eigenvalue| of A,0.9942229390144348,204.0
+1,Exercise 1,non-linear operator one-step error,0.5987041194382452,150.0
+1,Exercise 2 (contiguous rollout),Koopman n=1,1.010988802021266,150.0
+1,Exercise 2 (contiguous rollout),Koopman n=5,1.3856909352111848,150.0
+1,Exercise 2 (contiguous rollout),Koopman n=10,2.215934349325352,150.0
+1,Exercise 5,Koopman one-step d=2,0.8824635191523125,105.0
+1,Exercise 5,Koopman one-step d=50,0.24442184079711696,150.0
+2,base,Koopman AE one-step error,0.533679684461356,178.0
+2,base,Koopman AE reconstruction error,0.5323844471787411,178.0
+2,base,max |eigenvalue| of A,1.069183588027954,178.0
+2,Exercise 1,non-linear operator one-step error,0.6252048088365942,150.0
+2,Exercise 2 (contiguous rollout),Koopman n=1,1.0187196090909856,150.0
+2,Exercise 2 (contiguous rollout),Koopman n=5,1.1166829608237907,150.0
+2,Exercise 2 (contiguous rollout),Koopman n=10,1.1586949655693146,150.0
+2,Exercise 5,Koopman one-step d=2,0.8695153448222664,150.0
+2,Exercise 5,Koopman one-step d=50,0.24510025391019666,150.0
