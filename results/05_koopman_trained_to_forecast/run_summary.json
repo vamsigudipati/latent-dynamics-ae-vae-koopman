@@ -1,0 +1,214 @@
+{
+ "split": {
+  "fit": "0-799",
+  "held_out": "800-999",
+  "starts": 150,
+  "horizon": 50
+ },
+ "spectral": {
+  "L0": 4.982208251953125,
+  "delta": 0.05,
+  "w": 1992.8833007812495
+ },
+ "device": "/GPU:0",
+ "training": [
+  {
+   "model": "(i) one-step loss",
+   "seed": 0,
+   "epochs": 216,
+   "best_epoch": 196,
+   "train_s": 59.6,
+   "final_val_loss": 0.49766871333122253,
+   "max_modulus": 0.9895129799842834,
+   "final_recon": NaN,
+   "final_pred": NaN,
+   "final_penalty": NaN
+  },
+  {
+   "model": "(ii) multi-step loss",
+   "seed": 0,
+   "epochs": 260,
+   "best_epoch": 240,
+   "train_s": 98.7,
+   "final_val_loss": 2.098320245742798,
+   "max_modulus": 1.0162558555603027,
+   "final_recon": 0.17646469175815582,
+   "final_pred": 0.8396584987640381,
+   "final_penalty": 0.00028395873960107565
+  },
+  {
+   "model": "(iii) multi-step + spectral penalty",
+   "seed": 0,
+   "epochs": 176,
+   "best_epoch": 156,
+   "train_s": 67.4,
+   "final_val_loss": 2.4885706901550293,
+   "max_modulus": 0.9999462366104126,
+   "final_recon": 0.21384195983409882,
+   "final_pred": 1.1768670082092285,
+   "final_penalty": 1.1943189492935602e-10
+  },
+  {
+   "model": "(i) one-step loss",
+   "seed": 1,
+   "epochs": 231,
+   "best_epoch": 211,
+   "train_s": 65.5,
+   "final_val_loss": 0.4898696839809418,
+   "max_modulus": 1.0163486003875732,
+   "final_recon": NaN,
+   "final_pred": NaN,
+   "final_penalty": NaN
+  },
+  {
+   "model": "(ii) multi-step loss",
+   "seed": 1,
+   "epochs": 341,
+   "best_epoch": 321,
+   "train_s": 129.7,
+   "final_val_loss": 1.2442476749420166,
+   "max_modulus": 1.0090415477752686,
+   "final_recon": 0.12778469920158386,
+   "final_pred": 0.5450649261474609,
+   "final_penalty": 0.00016676490486133844
+  },
+  {
+   "model": "(iii) multi-step + spectral penalty",
+   "seed": 1,
+   "epochs": 600,
+   "best_epoch": 599,
+   "train_s": 229.7,
+   "final_val_loss": 1.577357530593872,
+   "max_modulus": 0.9998111128807068,
+   "final_recon": 0.15496307611465454,
+   "final_pred": 0.6928220987319946,
+   "final_penalty": 0.0
+  },
+  {
+   "model": "(i) one-step loss",
+   "seed": 2,
+   "epochs": 187,
+   "best_epoch": 167,
+   "train_s": 54.9,
+   "final_val_loss": 0.552838921546936,
+   "max_modulus": 1.010707139968872,
+   "final_recon": NaN,
+   "final_pred": NaN,
+   "final_penalty": NaN
+  },
+  {
+   "model": "(ii) multi-step loss",
+   "seed": 2,
+   "epochs": 333,
+   "best_epoch": 313,
+   "train_s": 127.4,
+   "final_val_loss": 1.5761995315551758,
+   "max_modulus": 1.0061296224594116,
+   "final_recon": 0.1479530781507492,
+   "final_pred": 0.6651521325111389,
+   "final_penalty": 4.243953662808053e-05
+  },
+  {
+   "model": "(iii) multi-step + spectral penalty",
+   "seed": 2,
+   "epochs": 468,
+   "best_epoch": 448,
+   "train_s": 182.5,
+   "final_val_loss": 1.919896125793457,
+   "max_modulus": 1.0000073909759521,
+   "final_recon": 0.1756175458431244,
+   "final_pred": 0.8643603920936584,
+   "final_penalty": 3.666012979297584e-11
+  }
+ ],
+ "verdict_a": [
+  {
+   "model": "(i) one-step loss",
+   "horizons_beating_dmd": [],
+   "first_horizon_beating_dmd": null,
+   "n_horizons_beating_dmd": 0,
+   "horizons_below_mean_flow_all_seeds": 0,
+   "max_modulus_per_seed": [
+    0.9895,
+    1.0163,
+    1.0107
+   ],
+   "stable_every_seed": false,
+   "stable_seeds": 1
+  },
+  {
+   "model": "(ii) multi-step loss",
+   "horizons_beating_dmd": [],
+   "first_horizon_beating_dmd": null,
+   "n_horizons_beating_dmd": 0,
+   "horizons_below_mean_flow_all_seeds": 0,
+   "max_modulus_per_seed": [
+    1.0163,
+    1.009,
+    1.0061
+   ],
+   "stable_every_seed": false,
+   "stable_seeds": 0
+  },
+  {
+   "model": "(iii) multi-step + spectral penalty",
+   "horizons_beating_dmd": [],
+   "first_horizon_beating_dmd": null,
+   "n_horizons_beating_dmd": 0,
+   "horizons_below_mean_flow_all_seeds": 1,
+   "max_modulus_per_seed": [
+    0.9999,
+    0.9998,
+    1.0
+   ],
+   "stable_every_seed": false,
+   "stable_seeds": 2
+  }
+ ],
+ "part_b": [
+  {
+   "split": "time (fit 0\u2013799, score 800\u2013999)",
+   "model": "POD, 10 modes, training basis",
+   "mean": 0.7875001430511475,
+   "min": NaN,
+   "max": NaN,
+   "source": "this run"
+  },
+  {
+   "split": "time (fit 0\u2013799, score 800\u2013999)",
+   "model": "dense AE, d = 10",
+   "mean": 0.9611032605171204,
+   "min": 0.9525677561759949,
+   "max": 0.9653875827789307,
+   "source": "this run, 3 seeds"
+  },
+  {
+   "split": "random (800 / 200)",
+   "model": "POD, 10 modes, training basis",
+   "mean": 0.7571991262439471,
+   "min": NaN,
+   "max": NaN,
+   "source": "rollout stage, earlier run"
+  },
+  {
+   "split": "random (800 / 200)",
+   "model": "dense AE, d = 10 (VAE-stage builder, 150-epoch budget)",
+   "mean": 0.4992028411037284,
+   "min": 0.4785584896287588,
+   "max": 0.5130677240866252,
+   "source": "rollout stage, earlier run, 3 seeds"
+  },
+  {
+   "split": "random (800 / 200)",
+   "model": "dense AE, d = 10 (autoencoder-stage builder, 600 epochs)",
+   "mean": 0.4649283523614235,
+   "min": 0.4577563262877215,
+   "max": 0.4756112755445543,
+   "source": "autoencoder stage, earlier run, 3 seeds"
+  }
+ ],
+ "longest_training_s": 229.7,
+ "wall_min": 25.6,
+ "tensorflow": "2.18.1",
+ "keras": "3.6.0"
+}

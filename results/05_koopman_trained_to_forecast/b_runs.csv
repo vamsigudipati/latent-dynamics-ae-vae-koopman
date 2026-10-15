@@ -1,0 +1,4 @@
+model,seed,rel_error,epochs,train_s
+"dense AE (d = 10), time split",0,0.9525677561759949,600,167.0
+"dense AE (d = 10), time split",1,0.9653544425964355,600,165.6
+"dense AE (d = 10), time split",2,0.9653875827789307,600,166.0

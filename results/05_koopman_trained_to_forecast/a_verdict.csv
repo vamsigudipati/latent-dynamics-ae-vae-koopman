@@ -1,0 +1,4 @@
+model,horizons_beating_dmd,first_horizon_beating_dmd,n_horizons_beating_dmd,horizons_below_mean_flow_all_seeds,max_modulus_per_seed,stable_every_seed,stable_seeds
+(i) one-step loss,[],,0,0,"[0.9895, 1.0163, 1.0107]",False,1
+(ii) multi-step loss,[],,0,0,"[1.0163, 1.009, 1.0061]",False,0
+(iii) multi-step + spectral penalty,[],,0,1,"[0.9999, 0.9998, 1.0]",False,2

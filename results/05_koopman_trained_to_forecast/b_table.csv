@@ -1,0 +1,6 @@
+split,model,mean,min,max,source
+"time (fit 0–799, score 800–999)","POD, 10 modes, training basis",0.7875001430511475,,,this run
+"time (fit 0–799, score 800–999)","dense AE, d = 10",0.9611032605171204,0.9525677561759949,0.9653875827789307,"this run, 3 seeds"
+random (800 / 200),"POD, 10 modes, training basis",0.7571991262439471,,,"rollout stage, earlier run"
+random (800 / 200),"dense AE, d = 10 (VAE-stage builder, 150-epoch budget)",0.4992028411037284,0.4785584896287588,0.5130677240866252,"rollout stage, earlier run, 3 seeds"
+random (800 / 200),"dense AE, d = 10 (autoencoder-stage builder, 600 epochs)",0.4649283523614235,0.4577563262877215,0.4756112755445543,"autoencoder stage, earlier run, 3 seeds"

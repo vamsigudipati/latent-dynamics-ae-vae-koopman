@@ -1,0 +1,11 @@
+model,seed,max_modulus,n_outside
+(i) one-step loss,0,0.9895129799842834,0
+(i) one-step loss,1,1.0163486003875732,2
+(i) one-step loss,2,1.010707139968872,1
+(ii) multi-step loss,0,1.0162558555603027,1
+(ii) multi-step loss,1,1.0090415477752686,8
+(ii) multi-step loss,2,1.0061296224594116,3
+(iii) multi-step + spectral penalty,0,0.9999461770057678,0
+(iii) multi-step + spectral penalty,1,0.9998111128807068,0
+(iii) multi-step + spectral penalty,2,1.0000073909759521,2
+DMD (POD rank 10),-1,0.9978299736976624,0
