@@ -7827,7 +7827,7 @@ independently of Stage 1.</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Stage-2-%E2%80%94-Structuring-the-latent-space:-latent-size,-trajectories-and-a-variational-autoencoder">Stage 2 — Structuring the latent space: latent size, trajectories and a variational autoencoder<a class="anchor-link" href="#Stage-2-%E2%80%94-Structuring-the-latent-space:-latent-size,-trajectories-and-a-variational-autoencoder">¶</a></h1><p><strong>Portfolio project: compress, structure and evolve one flow dataset — autoencoders, a VAE and a Koopman autoencoder.</strong></p>
-<p>This notebook asks three questions about the latent space of Stage 1's dense autoencoder on the same two-plate wake data (1,000 snapshots of u and v on a 128 × 64 grid, mean flow removed, the same 800 / 200 split). How does the reconstruction error fall with the latent size d (2, 5, 10, 20, 50) compared with POD of the same rank? What do the latent coordinates look like as a trajectory in time, next to the POD coefficients, and what happens between two latent codes? And what changes when the encoder outputs a distribution (a variational autoencoder, VAE, with a Kullback–Leibler pull towards a standard normal prior), so that new fields can be decoded from random draws? I solve the five exercises (full-budget sweep, 3-D latent trajectory, β sweep, convolutional VAE, latent arithmetic), repeat every training with the seeds 0, 1 and 2, and record a training animation of the VAE.</p>
+<p>This notebook asks three questions about the latent space of Stage 1's dense autoencoder on the same two-plate wake data (1,000 snapshots of u and v on a 128 × 64 grid, mean flow removed, the same 800 / 200 split). How does the reconstruction error fall with the latent size d (2, 5, 10, 20, 50) compared with POD of the same rank? What do the latent coordinates look like as a trajectory in time, next to the POD coefficients, and what happens between two latent codes? And what changes when the encoder outputs a distribution (a variational autoencoder, VAE, with a Kullback–Leibler pull towards a standard normal prior), so that new fields can be decoded from random draws? I solve the five experiments (full-budget sweep, 3-D latent trajectory, β sweep, convolutional VAE, latent arithmetic), repeat every training with the seeds 0, 1 and 2, and record a training animation of the VAE.</p>
 <p><strong>How it connects.</strong> It reloads the dataset and re-implements Stage 1's dense builders, split and POD baseline. Stage 3 asks how a latent state evolves in time, and Stage 4 compares POD, the autoencoder and the VAE across latent sizes with POD fitted on the training snapshots only.</p>
 <p><strong>About the outputs.</strong> The outputs below come from my single run (Apple M3 Max, 2026-10-13; dense networks on the Apple GPU, the convolutional VAE on the CPU, chosen by timing one training step of each). Afterwards I changed only text for this repository: this cell and the paths cell, the path lines (dataset from <code>../release_assets/</code>, models to <code>../models/02_latent_space_and_vae/</code>, tables to <code>../results/02_latent_space_and_vae/</code>, animation to <code>../animations/02_*</code>), comments, labels and printed text. Two quirks are kept as written: Section 7 says it keeps the d = 20 autoencoder but keeps the d = 10 model under a d = 20 name, and the POD error is computed on all snapshots while the networks are scored on the validation snapshots.</p>
 </div>
@@ -8286,7 +8286,7 @@ truncated at the same rank. This makes explicit <strong>where</strong> the non-l
 autoencoder actually gains over the optimal <em>linear</em> low-rank approximation.</p>
 <p>Training is repeated <code>len(latent_dims)</code> times, so a smaller <code>epochs</code> budget
 than in Stage 1 is used here to keep the sweep tractable; increase it if you
-have time/compute available (see Exercise 1).</p>
+have time/compute available (see Experiment 1).</p>
 </div>
 </div>
 </div>
@@ -9117,7 +9117,7 @@ normal prior. A small <code>beta</code> behaves closer to a plain autoencoder (g
 reconstruction, less structured latent space); a large <code>beta</code> produces a
 smoother, more sampleable latent space at the cost of reconstruction accuracy.
 We start with <code>beta = 1e-3</code>, a common starting point when the reconstruction
-term is a raw sum-of-squares (see Exercise 3 to explore this trade-off).</p>
+term is a raw sum-of-squares (see Experiment 3 to explore this trade-off).</p>
 </div>
 </div>
 </div>
@@ -13073,7 +13073,7 @@ draw random latent vectors directly from that prior and decode them into new,
 synthetic flow fields -- without needing any encoder input at all. Whether these
 synthetic fields look physically plausible is itself a useful diagnostic of how
 well the latent space was regularized (compare against <code>beta</code> in Section 12; see
-also Exercise 3).</p>
+also Experiment 3).</p>
 </div>
 </div>
 </div>
@@ -13129,28 +13129,28 @@ also Exercise 3).</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="15.-Exercises">15. Exercises<a class="anchor-link" href="#15.-Exercises">¶</a></h1><h2 id="Exercise-1----Full-budget-latent-dimension-sweep">Exercise 1 -- Full-budget latent dimension sweep<a class="anchor-link" href="#Exercise-1----Full-budget-latent-dimension-sweep">¶</a></h2><p>Section 6 uses a reduced training budget (<code>epochs=150</code>, no restart) to keep the
+<h1 id="15.-Experiments">15. Experiments<a class="anchor-link" href="#15.-Experiments">¶</a></h1><h2 id="Experiment-1----Full-budget-latent-dimension-sweep">Experiment 1 -- Full-budget latent dimension sweep<a class="anchor-link" href="#Experiment-1----Full-budget-latent-dimension-sweep">¶</a></h2><p>Section 6 uses a reduced training budget (<code>epochs=150</code>, no restart) to keep the
 sweep fast. Rerun it with the full Stage 1 budget (<code>epochs=600</code>) for each <code>d</code>
 and check whether the crossover point between the autoencoder and POD curves
 changes.</p>
 <hr/>
-<h2 id="Exercise-2----3D-latent-trajectory">Exercise 2 -- 3D latent trajectory<a class="anchor-link" href="#Exercise-2----3D-latent-trajectory">¶</a></h2><p>Retrain the reference autoencoder in Section 6-7 with <code>latent_dim = 3</code> and
+<h2 id="Experiment-2----3D-latent-trajectory">Experiment 2 -- 3D latent trajectory<a class="anchor-link" href="#Experiment-2----3D-latent-trajectory">¶</a></h2><p>Retrain the reference autoencoder in Section 6-7 with <code>latent_dim = 3</code> and
 produce a 3D scatter/trajectory plot (<code>Axes3D</code> or <code>ax = fig.add_subplot(projection="3d")</code>)
 analogous to Section 8. Compare it with the first three POD temporal
 coefficients.</p>
 <hr/>
-<h2 id="Exercise-3----Beta-sweep-for-the-VAE">Exercise 3 -- Beta sweep for the VAE<a class="anchor-link" href="#Exercise-3----Beta-sweep-for-the-VAE">¶</a></h2><p>Retrain the VAE from Section 11-12 for <code>beta</code> in <code>[1e-5, 1e-3, 1e-1, 1.0]</code>.
+<h2 id="Experiment-3----Beta-sweep-for-the-VAE">Experiment 3 -- Beta sweep for the VAE<a class="anchor-link" href="#Experiment-3----Beta-sweep-for-the-VAE">¶</a></h2><p>Retrain the VAE from Section 11-12 for <code>beta</code> in <code>[1e-5, 1e-3, 1e-1, 1.0]</code>.
 For each value, record the reconstruction error (Section 13) and visually
 inspect a handful of samples drawn from the prior (Section 14). Discuss the
 reconstruction-vs-generation trade-off you observe as <code>beta</code> increases.</p>
 <hr/>
-<h2 id="Exercise-4----Convolutional-VAE">Exercise 4 -- Convolutional VAE<a class="anchor-link" href="#Exercise-4----Convolutional-VAE">¶</a></h2><p>Adapt <code>create_vae_encoder()</code> to use the convolutional building blocks from
+<h2 id="Experiment-4----Convolutional-VAE">Experiment 4 -- Convolutional VAE<a class="anchor-link" href="#Experiment-4----Convolutional-VAE">¶</a></h2><p>Adapt <code>create_vae_encoder()</code> to use the convolutional building blocks from
 Stage 1 (<code>create_conv_encoder()</code>) instead of <code>Flatten()</code> + <code>Dense()</code>, keeping
 the <code>z_mean</code>/<code>z_log_var</code>/<code>Sampling()</code> outputs. Pair it with
 <code>create_conv_decoder()</code> from Stage 1. Compare reconstruction error against
 the dense VAE at the same <code>latent_dim</code>.</p>
 <hr/>
-<h2 id="Exercise-5----Latent-space-arithmetic">Exercise 5 -- Latent-space arithmetic<a class="anchor-link" href="#Exercise-5----Latent-space-arithmetic">¶</a></h2><p>Encode two very different snapshots (e.g. <code>v[0]</code> and a late-time snapshot) to
+<h2 id="Experiment-5----Latent-space-arithmetic">Experiment 5 -- Latent-space arithmetic<a class="anchor-link" href="#Experiment-5----Latent-space-arithmetic">¶</a></h2><p>Encode two very different snapshots (e.g. <code>v[0]</code> and a late-time snapshot) to
 get <code>z_mean</code> for each. Instead of linear interpolation (Section 9), try simple
 vector arithmetic in latent space -- e.g. decode <code>z_a + (z_c - z_b)</code> for a
 third snapshot <code>v[c]</code> -- and inspect whether the result resembles a physically
@@ -13165,7 +13165,7 @@ plausible combination of the input fields' features.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Exercise-solutions">Exercise solutions<a class="anchor-link" href="#Exercise-solutions">¶</a></h1><p>The five exercises of Section 15, solved with the notebook's own data (<code>v</code>, <code>v_trn</code>, <code>v_val</code>, grids <code>xx</code>, <code>yy</code>), POD (<code>U</code>, <code>s</code>, <code>vh</code>, <code>pod_reconstruction_error</code>), builders (<code>create_dense_encoder/decoder</code>, <code>create_vae_encoder</code>, <code>Sampling</code>, <code>VAE</code>) and error measure. Errors are mean relative $\ell_2$ errors (mean over the two velocity components) on the validation snapshots. Compute plan: about 12 trainings of up to 600 epochs with early stopping, roughly 40–70 minutes on the Apple GPU.</p>
+<h1 id="Experiment-solutions">Experiment solutions<a class="anchor-link" href="#Experiment-solutions">¶</a></h1><p>The five experiments of Section 15, solved with the notebook's own data (<code>v</code>, <code>v_trn</code>, <code>v_val</code>, grids <code>xx</code>, <code>yy</code>), POD (<code>U</code>, <code>s</code>, <code>vh</code>, <code>pod_reconstruction_error</code>), builders (<code>create_dense_encoder/decoder</code>, <code>create_vae_encoder</code>, <code>Sampling</code>, <code>VAE</code>) and error measure. Errors are mean relative $\ell_2$ errors (mean over the two velocity components) on the validation snapshots. Compute plan: about 12 trainings of up to 600 epochs with early stopping, roughly 40–70 minutes on the Apple GPU.</p>
 </div>
 </div>
 </div>
@@ -13214,7 +13214,7 @@ plausible combination of the input fields' features.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exercise-1-%E2%80%94-solution">Exercise 1 — solution<a class="anchor-link" href="#Exercise-1-%E2%80%94-solution">¶</a></h2><p>The latent-dimension sweep of Section 6 rerun with the full Stage 1 budget for three of its five sizes, d = 2, 10 and 50 (exercise budget: at most three configurations): up to 600 epochs with early stopping patience 20 and learning-rate patience 8 (the notebook's sweep used 150 epochs, patience 15 and 6). The crossover is the smallest <code>d</code> at which POD becomes at least as accurate as the autoencoder.</p>
+<h2 id="Experiment-1-%E2%80%94-solution">Experiment 1 — solution<a class="anchor-link" href="#Experiment-1-%E2%80%94-solution">¶</a></h2><p>The latent-dimension sweep of Section 6 rerun with the full Stage 1 budget for three of its five sizes, d = 2, 10 and 50 (experiment budget: at most three configurations): up to 600 epochs with early stopping patience 20 and learning-rate patience 8 (the notebook's sweep used 150 epochs, patience 15 and 6). The crossover is the smallest <code>d</code> at which POD becomes at least as accurate as the autoencoder.</p>
 </div>
 </div>
 </div>
@@ -13284,7 +13284,7 @@ plausible combination of the input fields' features.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exercise-2-%E2%80%94-solution">Exercise 2 — solution<a class="anchor-link" href="#Exercise-2-%E2%80%94-solution">¶</a></h2><p>A dense autoencoder with <code>latent_dim = 3</code> (notebook's recipe, exercise budget of 300 epochs with early stopping), its 3-D latent trajectory over the whole time series, and the first three POD temporal coefficients scaled by their singular values, both coloured by time.</p>
+<h2 id="Experiment-2-%E2%80%94-solution">Experiment 2 — solution<a class="anchor-link" href="#Experiment-2-%E2%80%94-solution">¶</a></h2><p>A dense autoencoder with <code>latent_dim = 3</code> (notebook's recipe, experiment budget of 300 epochs with early stopping), its 3-D latent trajectory over the whole time series, and the first three POD temporal coefficients scaled by their singular values, both coloured by time.</p>
 </div>
 </div>
 </div>
@@ -13340,7 +13340,7 @@ plausible combination of the input fields' features.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exercise-3-%E2%80%94-solution">Exercise 3 — solution<a class="anchor-link" href="#Exercise-3-%E2%80%94-solution">¶</a></h2><p>The VAE of Sections 11–12 (<code>vae_latent_dim = 10</code>, same training recipe) for β ∈ {1e-5, 1e-3, 1e-1, 1}: β = 1e-3 is the notebook's trained VAE (not retrained); the other three are trained with the exercise budget (300 epochs, early stopping). For each β: validation reconstruction error from <code>z_mean</code>, the mean KL term, and five fields decoded from the same prior draws $z \sim \mathcal{N}(0, I)$. As an objective measure of how plausible the generated fields are, their energy is compared with that of real snapshots (ratio of mean squared norms) and their relative divergence with that of real snapshots.</p>
+<h2 id="Experiment-3-%E2%80%94-solution">Experiment 3 — solution<a class="anchor-link" href="#Experiment-3-%E2%80%94-solution">¶</a></h2><p>The VAE of Sections 11–12 (<code>vae_latent_dim = 10</code>, same training recipe) for β ∈ {1e-5, 1e-3, 1e-1, 1}: β = 1e-3 is the notebook's trained VAE (not retrained); the other three are trained with the experiment budget (300 epochs, early stopping). For each β: validation reconstruction error from <code>z_mean</code>, the mean KL term, and five fields decoded from the same prior draws $z \sim \mathcal{N}(0, I)$. As an objective measure of how plausible the generated fields are, their energy is compared with that of real snapshots (ratio of mean squared norms) and their relative divergence with that of real snapshots.</p>
 </div>
 </div>
 </div>
@@ -13415,7 +13415,7 @@ Result (Exercise 3): beta 1e-05: error 0.436, KL 1544.2, generated/real energy 0
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exercise-4-%E2%80%94-solution">Exercise 4 — solution<a class="anchor-link" href="#Exercise-4-%E2%80%94-solution">¶</a></h2><p>A convolutional VAE: the encoder uses Stage 1's convolutional block (one 3×3 convolution with 32 filters and one 2×2 max-pooling, as in <code>create_conv_encoder()</code> of Stage 1) and ends in the <code>z_mean</code>/<code>z_log_var</code>/<code>Sampling()</code> outputs; the decoder is Stage 1's <code>create_conv_decoder()</code> design (dense expansion, convolution, upsampling, cropping, linear output convolution). Those builders are not in this notebook, so they are written here following Stage 1. Same <code>vae_latent_dim</code>, β and training recipe as the dense VAE of Section 12.</p>
+<h2 id="Experiment-4-%E2%80%94-solution">Experiment 4 — solution<a class="anchor-link" href="#Experiment-4-%E2%80%94-solution">¶</a></h2><p>A convolutional VAE: the encoder uses Stage 1's convolutional block (one 3×3 convolution with 32 filters and one 2×2 max-pooling, as in <code>create_conv_encoder()</code> of Stage 1) and ends in the <code>z_mean</code>/<code>z_log_var</code>/<code>Sampling()</code> outputs; the decoder is Stage 1's <code>create_conv_decoder()</code> design (dense expansion, convolution, upsampling, cropping, linear output convolution). Those builders are not in this notebook, so they are written here following Stage 1. Same <code>vae_latent_dim</code>, β and training recipe as the dense VAE of Section 12.</p>
 </div>
 </div>
 </div>
@@ -13475,7 +13475,7 @@ Result (Exercise 4): d=10, beta=0.001: validation relative error dense VAE 0.443
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exercise-5-%E2%80%94-solution">Exercise 5 — solution<a class="anchor-link" href="#Exercise-5-%E2%80%94-solution">¶</a></h2><p>Latent arithmetic with the trained VAE of Section 12: encode <code>v[a]</code>, <code>v[b]</code>, <code>v[c]</code> (a = 0, b = 500, c = the last snapshot) to their <code>z_mean</code> and decode $z_a + (z_c - z_b)$. Plausibility is checked three ways: visually; by the distance from the result to the nearest real snapshot (relative error), compared with the typical distance between consecutive real snapshots; and by its relative divergence, compared with real snapshots (the flow is incompressible, so a physical field should have the same small discrete divergence as the data).</p>
+<h2 id="Experiment-5-%E2%80%94-solution">Experiment 5 — solution<a class="anchor-link" href="#Experiment-5-%E2%80%94-solution">¶</a></h2><p>Latent arithmetic with the trained VAE of Section 12: encode <code>v[a]</code>, <code>v[b]</code>, <code>v[c]</code> (a = 0, b = 500, c = the last snapshot) to their <code>z_mean</code> and decode $z_a + (z_c - z_b)$. Plausibility is checked three ways: visually; by the distance from the result to the nearest real snapshot (relative error), compared with the typical distance between consecutive real snapshots; and by its relative divergence, compared with real snapshots (the flow is incompressible, so a physical field should have the same small discrete divergence as the data).</p>
 </div>
 </div>
 </div>
@@ -13532,12 +13532,12 @@ Result (Exercise 4): d=10, beta=0.001: validation relative error dense VAE 0.443
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Summary-of-the-exercise-solutions">Summary of the exercise solutions<a class="anchor-link" href="#Summary-of-the-exercise-solutions">¶</a></h2><ul>
-<li><strong>Exercise 1:</strong> autoencoder versus POD across latent sizes with the full training budget, and where they cross.</li>
-<li><strong>Exercise 2:</strong> a 3-D latent trajectory next to the first three POD coefficients.</li>
-<li><strong>Exercise 3:</strong> the β trade-off between reconstruction and the quality of prior samples.</li>
-<li><strong>Exercise 4:</strong> a convolutional VAE against the dense VAE at the same latent size.</li>
-<li><strong>Exercise 5:</strong> latent arithmetic and objective plausibility checks of the result.</li>
+<h2 id="Summary-of-the-experiment-solutions">Summary of the experiment solutions<a class="anchor-link" href="#Summary-of-the-experiment-solutions">¶</a></h2><ul>
+<li><strong>Experiment 1:</strong> autoencoder versus POD across latent sizes with the full training budget, and where they cross.</li>
+<li><strong>Experiment 2:</strong> a 3-D latent trajectory next to the first three POD coefficients.</li>
+<li><strong>Experiment 3:</strong> the β trade-off between reconstruction and the quality of prior samples.</li>
+<li><strong>Experiment 4:</strong> a convolutional VAE against the dense VAE at the same latent size.</li>
+<li><strong>Experiment 5:</strong> latent arithmetic and objective plausibility checks of the result.</li>
 </ul>
 <p>The numbers are those printed in the <code>Result</code> lines above.</p>
 </div>
@@ -13659,7 +13659,7 @@ Result (Exercise 4): d=10, beta=0.001: validation relative error dense VAE 0.443
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Three-seed-repeats">Three-seed repeats<a class="anchor-link" href="#Three-seed-repeats">¶</a></h1><p>Every training here takes well under 15 minutes, so each is repeated with the seeds 0, 1 and 2. <strong>Seed 0 is the base run</strong>: the notebook's sweep and VAE above (seeds set in the import cell) and the exercise solutions (<code>seed=0</code>). For seeds 1 and 2, <code>tf.keras.utils.set_random_seed(seed)</code> sets the initial weights, dropout, the VAE's sampling noise and the batch order; data, split, settings and devices are unchanged. One cell per seed, then a summary (validation relative error, mean over u and v).</p>
+<h1 id="Three-seed-repeats">Three-seed repeats<a class="anchor-link" href="#Three-seed-repeats">¶</a></h1><p>Every training here takes well under 15 minutes, so each is repeated with the seeds 0, 1 and 2. <strong>Seed 0 is the base run</strong>: the notebook's sweep and VAE above (seeds set in the import cell) and the experiment solutions (<code>seed=0</code>). For seeds 1 and 2, <code>tf.keras.utils.set_random_seed(seed)</code> sets the initial weights, dropout, the VAE's sampling noise and the batch order; data, split, settings and devices are unchanged. One cell per seed, then a summary (validation relative error, mean over u and v).</p>
 </div>
 </div>
 </div>

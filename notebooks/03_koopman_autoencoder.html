@@ -7835,9 +7835,9 @@ rebuilds only the dense encoder/decoder building blocks it needs.</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Stage-3-%E2%80%94-Evolving-the-latent-state:-a-Koopman-autoencoder-against-persistence-and-DMD">Stage 3 — Evolving the latent state: a Koopman autoencoder against persistence and DMD<a class="anchor-link" href="#Stage-3-%E2%80%94-Evolving-the-latent-state:-a-Koopman-autoencoder-against-persistence-and-DMD">¶</a></h1><p><strong>Portfolio project: compress, structure and evolve one flow dataset — autoencoders, a VAE and a Koopman autoencoder.</strong></p>
-<p>This notebook learns how the compressed state of the two-plate wake evolves in time. A dense encoder (256 hidden units) maps each snapshot to 10 latent numbers, a single linear layer without bias (the matrix A, an approximation of the Koopman operator) advances them one step, and a dense decoder maps back; the network is trained on pairs of consecutive snapshots with two equally weighted losses, reconstruction of v(t) and prediction of v(t+1). Because A is linear, its eigenvalues give a growth rate and a frequency per latent direction. The model is compared with persistence and with DMD (a least-squares linear operator on 10 POD coefficients). I solve the five exercises (non-linear operator, a rollout on a contiguous held-out block, learned against DMD eigenvalues, decoded Koopman modes, a latent-size sweep for prediction), repeat every training with the seeds 0, 1 and 2, and record a training animation.</p>
+<p>This notebook learns how the compressed state of the two-plate wake evolves in time. A dense encoder (256 hidden units) maps each snapshot to 10 latent numbers, a single linear layer without bias (the matrix A, an approximation of the Koopman operator) advances them one step, and a dense decoder maps back; the network is trained on pairs of consecutive snapshots with two equally weighted losses, reconstruction of v(t) and prediction of v(t+1). Because A is linear, its eigenvalues give a growth rate and a frequency per latent direction. The model is compared with persistence and with DMD (a least-squares linear operator on 10 POD coefficients). I solve the five experiments (non-linear operator, a rollout on a contiguous held-out block, learned against DMD eigenvalues, decoded Koopman modes, a latent-size sweep for prediction), repeat every training with the seeds 0, 1 and 2, and record a training animation.</p>
 <p><strong>How it connects.</strong> It reloads the dataset, re-implements Stage 1's dense builders and error measure, and uses Stage 1's POD as the basis of DMD. Stage 4 repeats the rollout properly: a contiguous split, normalisation fitted on the training period only, 150 held-out starts and horizons up to 50 steps.</p>
-<p><strong>About the outputs.</strong> The outputs below come from my single run (Apple M3 Max, 2026-10-13; the Koopman autoencoder on the Apple GPU, the non-linear operator model on the CPU, chosen by timing one training step of each). What they show: the one-step prediction is worse than persistence in every seed, and on a contiguous held-out block the rollout is worse than predicting the mean flow from the first step. Afterwards I changed only text for this repository: this cell and the paths cell, the path lines (dataset from <code>../release_assets/</code>, models to <code>../models/03_koopman_autoencoder/</code>, tables to <code>../results/03_koopman_autoencoder/</code>, animation to <code>../animations/03_*</code>), comments, labels and printed text. Section 13 compares rollouts with the first 50 snapshots rather than their true futures (the notebook says it is approximate); Exercise 2 is the proper version.</p>
+<p><strong>About the outputs.</strong> The outputs below come from my single run (Apple M3 Max, 2026-10-13; the Koopman autoencoder on the Apple GPU, the non-linear operator model on the CPU, chosen by timing one training step of each). What they show: the one-step prediction is worse than persistence in every seed, and on a contiguous held-out block the rollout is worse than predicting the mean flow from the first step. Afterwards I changed only text for this repository: this cell and the paths cell, the path lines (dataset from <code>../release_assets/</code>, models to <code>../models/03_koopman_autoencoder/</code>, tables to <code>../results/03_koopman_autoencoder/</code>, animation to <code>../animations/03_*</code>), comments, labels and printed text. Section 13 compares rollouts with the first 50 snapshots rather than their true futures (the notebook says it is approximate); Experiment 2 is the proper version.</p>
 </div>
 </div>
 </div>
@@ -8319,7 +8319,7 @@ and each eigenvalue $\lambda_j = r_j e^{i\omega_j}$ directly tells you the growt
 rate ($|\lambda_j| \gtrless 1$: growing/decaying mode) and oscillation frequency
 ($\omega_j$) of the corresponding latent direction. This interpretability is the
 entire point of keeping $\mathbf{A}$ linear instead of letting it be another neural
-network (see Exercise 1 for the non-linear alternative, and Section 11 for using
+network (see Experiment 1 for the non-linear alternative, and Section 11 for using
 this eigendecomposition directly).</p>
 </div>
 </div>
@@ -12219,7 +12219,7 @@ dynamics are (correctly) dissipative -- consistent with a viscous flow relaxing
 towards its mean. Eigenvalues sitting very close to the unit circle correspond to
 slowly-decaying, persistent latent directions -- candidates for the flow's
 dominant coherent structures. Compare this plot against the eigenvalues of the
-classical DMD operator from Section 9 (Exercise 3 asks you to overlay them).</p>
+classical DMD operator from Section 9 (Experiment 3 asks you to overlay them).</p>
 </div>
 </div>
 </div>
@@ -12335,7 +12335,7 @@ snapshots of the dataset as an approximate reference, since <code>X_val</code>/<
 built with random shuffling (Section 4) and do not preserve a contiguous
 time-ordering needed for a true multi-step-ahead ground truth. For a rigorous
 version, rebuild a held-out <strong>contiguous</strong> block of the time series (no shuffling)
-before running this section -- left as Exercise 2.</p>
+before running this section -- left as Experiment 2.</p>
 </div>
 </div>
 </div>
@@ -12411,7 +12411,7 @@ before running this section -- left as Exercise 2.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="15.-Exercises">15. Exercises<a class="anchor-link" href="#15.-Exercises">¶</a></h1><h2 id="Exercise-1----Non-linear-Koopman-operator">Exercise 1 -- Non-linear Koopman operator<a class="anchor-link" href="#Exercise-1----Non-linear-Koopman-operator">¶</a></h2><p>Section 7 constrains the latent-space evolution operator to be linear
+<h1 id="15.-Experiments">15. Experiments<a class="anchor-link" href="#15.-Experiments">¶</a></h1><h2 id="Experiment-1----Non-linear-Koopman-operator">Experiment 1 -- Non-linear Koopman operator<a class="anchor-link" href="#Experiment-1----Non-linear-Koopman-operator">¶</a></h2><p>Section 7 constrains the latent-space evolution operator to be linear
 (<code>use_bias=False</code>, single <code>Dense</code> layer) specifically so it has an
 eigendecomposition (Section 12). Replace <code>create_koopman_operator()</code> with a small
 non-linear MLP (two <code>Dense</code> layers with an activation in between) and compare the
@@ -12420,27 +12420,27 @@ Discuss the trade-off: a non-linear operator may reduce prediction error, but yo
 lose the eigenvalue/eigenvector interpretation from Section 12 -- there is no
 single, meaningful "growth rate and frequency" for a non-linear map.</p>
 <hr/>
-<h2 id="Exercise-2----A-rigorous,-contiguous-rollout-evaluation">Exercise 2 -- A rigorous, contiguous rollout evaluation<a class="anchor-link" href="#Exercise-2----A-rigorous,-contiguous-rollout-evaluation">¶</a></h2><p>Section 13's rollout comparison is approximate because <code>X_val</code>/<code>y_val</code> were built
+<h2 id="Experiment-2----A-rigorous,-contiguous-rollout-evaluation">Experiment 2 -- A rigorous, contiguous rollout evaluation<a class="anchor-link" href="#Experiment-2----A-rigorous,-contiguous-rollout-evaluation">¶</a></h2><p>Section 13's rollout comparison is approximate because <code>X_val</code>/<code>y_val</code> were built
 with a shuffled train/test split. Rebuild a <strong>contiguous, held-out block</strong> of the
 time series (e.g. the last 20% of snapshots, <em>not</em> shuffled) specifically for
 rollout evaluation, and rerun Section 13 with a proper ground truth at every
 <code>n_steps</code>.</p>
 <hr/>
-<h2 id="Exercise-3----Compare-learned-vs-classical-DMD-eigenvalues">Exercise 3 -- Compare learned vs classical DMD eigenvalues<a class="anchor-link" href="#Exercise-3----Compare-learned-vs-classical-DMD-eigenvalues">¶</a></h2><p>Compute the eigenvalues of <code>A_dmd</code> from Section 9 (same approach as Section 12:
+<h2 id="Experiment-3----Compare-learned-vs-classical-DMD-eigenvalues">Experiment 3 -- Compare learned vs classical DMD eigenvalues<a class="anchor-link" href="#Experiment-3----Compare-learned-vs-classical-DMD-eigenvalues">¶</a></h2><p>Compute the eigenvalues of <code>A_dmd</code> from Section 9 (same approach as Section 12:
 <code>np.linalg.eig</code>), and overlay them on the complex-plane plot from Section 12
 alongside the learned Koopman operator's eigenvalues. Do the two operators agree on
 which directions are the slowest-decaying (most persistent) ones? If not, what
 does that tell you about what the non-linear encoder is capturing that raw POD
 coordinates are not?</p>
 <hr/>
-<h2 id="Exercise-4----Visualize-the-Koopman-modes">Exercise 4 -- Visualize the Koopman modes<a class="anchor-link" href="#Exercise-4----Visualize-the-Koopman-modes">¶</a></h2><p>Decode each eigenvector of $\mathbf{A}$ (columns of the <code>eigenvectors</code> matrix from
+<h2 id="Experiment-4----Visualize-the-Koopman-modes">Experiment 4 -- Visualize the Koopman modes<a class="anchor-link" href="#Experiment-4----Visualize-the-Koopman-modes">¶</a></h2><p>Decode each eigenvector of $\mathbf{A}$ (columns of the <code>eigenvectors</code> matrix from
 Section 12, treated as points in latent space, i.e. <code>koopman_decoder.predict(...)</code>)
 to visualize what spatial structure each Koopman mode corresponds to in physical
 space. Order them by $|\lambda|$ (most persistent first) and compare the leading
 modes against the leading POD modes (columns of <code>Phi</code> from Section 9, reshaped to
 <code>(n_x, n_y, n_v)</code>).</p>
 <hr/>
-<h2 id="Exercise-5----Latent-dimension-sweep-for-prediction-(not-just-reconstruction)">Exercise 5 -- Latent dimension sweep for prediction (not just reconstruction)<a class="anchor-link" href="#Exercise-5----Latent-dimension-sweep-for-prediction-(not-just-reconstruction)">¶</a></h2><p>Stage 2, Section 6 swept <code>latent_dim</code> for <strong>reconstruction</strong> error against POD.
+<h2 id="Experiment-5----Latent-dimension-sweep-for-prediction-(not-just-reconstruction)">Experiment 5 -- Latent dimension sweep for prediction (not just reconstruction)<a class="anchor-link" href="#Experiment-5----Latent-dimension-sweep-for-prediction-(not-just-reconstruction)">¶</a></h2><p>Stage 2, Section 6 swept <code>latent_dim</code> for <strong>reconstruction</strong> error against POD.
 Repeat that sweep here, but for <strong>one-step prediction</strong> error (Section 10),
 comparing the Koopman autoencoder against classical DMD at each <code>latent_dim</code> in
 <code>[2, 5, 10, 20, 50]</code>. Does the gap between the two grow or shrink as <code>latent_dim</code>
@@ -12456,7 +12456,7 @@ genuinely non-linear versus well captured by a large enough linear subspace?</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Exercise-solutions">Exercise solutions<a class="anchor-link" href="#Exercise-solutions">¶</a></h1><p>The five exercises of Section 15, solved with the notebook's own data (<code>v</code>, <code>X_trn/X_val</code>, <code>y_trn/y_val</code>), builders (<code>create_dense_encoder/decoder</code>, <code>create_koopman_operator</code>, <code>create_koopman_autoencoder</code>), baselines (persistence, DMD with <code>Phi</code>, <code>A_dmd</code>) and the trained Koopman autoencoder. Errors are mean relative $\ell_2$ errors (mean over the two velocity components). Training recipe as in Section 8 (Adam 1e-3, two equally weighted MSE terms, batch 32, up to 600 epochs, early stopping patience 20, learning-rate halving patience 8). <strong>Exercise budget (mine):</strong> exercise models train for at most 150 epochs with early stopping (patience 20), Exercise 5 uses three latent sizes (2, 10 = the notebook's model, 50). Compute plan: five trainings on the Apple GPU, under 20 minutes.</p>
+<h1 id="Experiment-solutions">Experiment solutions<a class="anchor-link" href="#Experiment-solutions">¶</a></h1><p>The five experiments of Section 15, solved with the notebook's own data (<code>v</code>, <code>X_trn/X_val</code>, <code>y_trn/y_val</code>), builders (<code>create_dense_encoder/decoder</code>, <code>create_koopman_operator</code>, <code>create_koopman_autoencoder</code>), baselines (persistence, DMD with <code>Phi</code>, <code>A_dmd</code>) and the trained Koopman autoencoder. Errors are mean relative $\ell_2$ errors (mean over the two velocity components). Training recipe as in Section 8 (Adam 1e-3, two equally weighted MSE terms, batch 32, up to 600 epochs, early stopping patience 20, learning-rate halving patience 8). <strong>Experiment budget (mine):</strong> experiment models train for at most 150 epochs with early stopping (patience 20), Experiment 5 uses three latent sizes (2, 10 = the notebook's model, 50). Compute plan: five trainings on the Apple GPU, under 20 minutes.</p>
 </div>
 </div>
 </div>
@@ -12495,7 +12495,7 @@ genuinely non-linear versus well captured by a large enough linear subspace?</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exercise-1-%E2%80%94-solution">Exercise 1 — solution<a class="anchor-link" href="#Exercise-1-%E2%80%94-solution">¶</a></h2><p>The linear operator is replaced by a small non-linear MLP in latent space (Dense 64, tanh, then Dense <code>latent_dim</code>), everything else as in the notebook's Koopman autoencoder (encoder and decoder with 256 hidden units, same losses and training). One-step prediction error is compared with the linear operator.</p>
+<h2 id="Experiment-1-%E2%80%94-solution">Experiment 1 — solution<a class="anchor-link" href="#Experiment-1-%E2%80%94-solution">¶</a></h2><p>The linear operator is replaced by a small non-linear MLP in latent space (Dense 64, tanh, then Dense <code>latent_dim</code>), everything else as in the notebook's Koopman autoencoder (encoder and decoder with 256 hidden units, same losses and training). One-step prediction error is compared with the linear operator.</p>
 </div>
 </div>
 </div>
@@ -12554,7 +12554,7 @@ Result (Exercise 1): one-step prediction error linear Koopman 0.5468 vs non-line
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exercise-2-%E2%80%94-solution">Exercise 2 — solution<a class="anchor-link" href="#Exercise-2-%E2%80%94-solution">¶</a></h2><p>A rigorous rollout: the time series is split <strong>contiguously</strong>: the Koopman autoencoder and the DMD operator (with its POD basis) are fitted on the pairs of the first 80 % of snapshots only (a random 15 % of those pairs used for early stopping), and the last 20 % are held out. From every held-out start snapshot $t_0$ with ten steps of future available, the state is encoded once, advanced $n$ = 1…10 times in latent space and decoded, and compared with the true $v(t_0+n)$. Persistence ($\hat v(t_0+n) = v(t_0)$) and DMD rollouts use the same starts.</p>
+<h2 id="Experiment-2-%E2%80%94-solution">Experiment 2 — solution<a class="anchor-link" href="#Experiment-2-%E2%80%94-solution">¶</a></h2><p>A rigorous rollout: the time series is split <strong>contiguously</strong>: the Koopman autoencoder and the DMD operator (with its POD basis) are fitted on the pairs of the first 80 % of snapshots only (a random 15 % of those pairs used for early stopping), and the last 20 % are held out. From every held-out start snapshot $t_0$ with ten steps of future available, the state is encoded once, advanced $n$ = 1…10 times in latent space and decoded, and compared with the true $v(t_0+n)$. Persistence ($\hat v(t_0+n) = v(t_0)$) and DMD rollouts use the same starts.</p>
 </div>
 </div>
 </div>
@@ -12636,7 +12636,7 @@ Result (Exercise 1): one-step prediction error linear Koopman 0.5468 vs non-line
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exercise-3-%E2%80%94-solution">Exercise 3 — solution<a class="anchor-link" href="#Exercise-3-%E2%80%94-solution">¶</a></h2><p>Eigenvalues of the classical DMD operator <code>A_dmd</code> (Section 9; since $b = a\,A_{\mathrm{DMD}}$, the eigenvalues are those of $A_{\mathrm{DMD}}^\top$, as for the learned operator) overlaid on those of the learned Koopman operator, with the unit circle. The table lists both sets sorted by modulus.</p>
+<h2 id="Experiment-3-%E2%80%94-solution">Experiment 3 — solution<a class="anchor-link" href="#Experiment-3-%E2%80%94-solution">¶</a></h2><p>Eigenvalues of the classical DMD operator <code>A_dmd</code> (Section 9; since $b = a\,A_{\mathrm{DMD}}$, the eigenvalues are those of $A_{\mathrm{DMD}}^\top$, as for the learned operator) overlaid on those of the learned Koopman operator, with the unit circle. The table lists both sets sorted by modulus.</p>
 </div>
 </div>
 </div>
@@ -12701,7 +12701,7 @@ Result (Exercise 3): largest |λ| learned 0.9686 (angle 0.000 rad) vs DMD 0.9980
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exercise-4-%E2%80%94-solution">Exercise 4 — solution<a class="anchor-link" href="#Exercise-4-%E2%80%94-solution">¶</a></h2><p>Each eigenvector $w_j$ of $\mathbf{A}$ is complex, so its real part is used as a direction in latent space. It is scaled to the typical size of the latent codes, $\sigma_z$ (the RMS norm of the encoded data), and the decoded field $\psi(\sigma_z\,\mathrm{Re}\,w_j) - \psi(0)$ shows the spatial structure that direction adds. Modes are ordered by $|\lambda_j|$ and shown above the leading POD modes (columns of <code>Phi</code>).</p>
+<h2 id="Experiment-4-%E2%80%94-solution">Experiment 4 — solution<a class="anchor-link" href="#Experiment-4-%E2%80%94-solution">¶</a></h2><p>Each eigenvector $w_j$ of $\mathbf{A}$ is complex, so its real part is used as a direction in latent space. It is scaled to the typical size of the latent codes, $\sigma_z$ (the RMS norm of the encoded data), and the decoded field $\psi(\sigma_z\,\mathrm{Re}\,w_j) - \psi(0)$ shows the spatial structure that direction adds. Modes are ordered by $|\lambda_j|$ and shown above the leading POD modes (columns of <code>Phi</code>).</p>
 </div>
 </div>
 </div>
@@ -12759,7 +12759,7 @@ Result (Exercise 3): largest |λ| learned 0.9686 (angle 0.000 rad) vs DMD 0.9980
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exercise-5-%E2%80%94-solution">Exercise 5 — solution<a class="anchor-link" href="#Exercise-5-%E2%80%94-solution">¶</a></h2><p>Koopman autoencoder and classical DMD, one-step prediction error on the notebook's validation pairs, for <code>latent_dim</code> in [2, 10, 50] (at most three configurations); the base <code>d = 10</code> model is reused for that entry.</p>
+<h2 id="Experiment-5-%E2%80%94-solution">Experiment 5 — solution<a class="anchor-link" href="#Experiment-5-%E2%80%94-solution">¶</a></h2><p>Koopman autoencoder and classical DMD, one-step prediction error on the notebook's validation pairs, for <code>latent_dim</code> in [2, 10, 50] (at most three configurations); the base <code>d = 10</code> model is reused for that entry.</p>
 </div>
 </div>
 </div>
@@ -12827,12 +12827,12 @@ Result (Exercise 3): largest |λ| learned 0.9686 (angle 0.000 rad) vs DMD 0.9980
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Summary-of-the-exercise-solutions">Summary of the exercise solutions<a class="anchor-link" href="#Summary-of-the-exercise-solutions">¶</a></h2><ul>
-<li><strong>Exercise 1:</strong> linear versus non-linear latent operator.</li>
-<li><strong>Exercise 2:</strong> a rollout evaluated on a contiguous held-out block with true future states.</li>
-<li><strong>Exercise 3:</strong> learned versus DMD eigenvalues.</li>
-<li><strong>Exercise 4:</strong> decoded Koopman directions next to POD modes.</li>
-<li><strong>Exercise 5:</strong> Koopman versus DMD prediction error across latent sizes.</li>
+<h2 id="Summary-of-the-experiment-solutions">Summary of the experiment solutions<a class="anchor-link" href="#Summary-of-the-experiment-solutions">¶</a></h2><ul>
+<li><strong>Experiment 1:</strong> linear versus non-linear latent operator.</li>
+<li><strong>Experiment 2:</strong> a rollout evaluated on a contiguous held-out block with true future states.</li>
+<li><strong>Experiment 3:</strong> learned versus DMD eigenvalues.</li>
+<li><strong>Experiment 4:</strong> decoded Koopman directions next to POD modes.</li>
+<li><strong>Experiment 5:</strong> Koopman versus DMD prediction error across latent sizes.</li>
 </ul>
 <p>The numbers are those printed in the <code>Result</code> lines above.</p>
 </div>
@@ -12939,7 +12939,7 @@ Result (Exercise 3): largest |λ| learned 0.9686 (angle 0.000 rad) vs DMD 0.9980
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Three-seed-repeats">Three-seed repeats<a class="anchor-link" href="#Three-seed-repeats">¶</a></h1><p>Every training here takes well under 15 minutes, so each is repeated with the seeds 0, 1 and 2. <strong>Seed 0 is the base run</strong>: the notebook's Koopman autoencoder above (seeds set in the import cell) and the exercise solutions (<code>seed=0</code>). For seeds 1 and 2, <code>tf.keras.utils.set_random_seed(seed)</code> sets the initial weights and the batch order; data, split, settings and devices are unchanged. Persistence and DMD are deterministic. One cell per seed, then a summary of the one-step errors, the Exercise 2 rollout errors and the largest eigenvalue modulus.</p>
+<h1 id="Three-seed-repeats">Three-seed repeats<a class="anchor-link" href="#Three-seed-repeats">¶</a></h1><p>Every training here takes well under 15 minutes, so each is repeated with the seeds 0, 1 and 2. <strong>Seed 0 is the base run</strong>: the notebook's Koopman autoencoder above (seeds set in the import cell) and the experiment solutions (<code>seed=0</code>). For seeds 1 and 2, <code>tf.keras.utils.set_random_seed(seed)</code> sets the initial weights and the batch order; data, split, settings and devices are unchanged. Persistence and DMD are deterministic. One cell per seed, then a summary of the one-step errors, the Experiment 2 rollout errors and the largest eigenvalue modulus.</p>
 </div>
 </div>
 </div>

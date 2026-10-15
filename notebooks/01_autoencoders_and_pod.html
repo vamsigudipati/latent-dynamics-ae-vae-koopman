@@ -7829,7 +7829,7 @@ space and reconstruct it (an autoencoder), and to approximate the temporal evolu
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Stage-1-%E2%80%94-Compressing-a-flow-field:-dense-and-convolutional-autoencoders-against-POD">Stage 1 — Compressing a flow field: dense and convolutional autoencoders against POD<a class="anchor-link" href="#Stage-1-%E2%80%94-Compressing-a-flow-field:-dense-and-convolutional-autoencoders-against-POD">¶</a></h1><p><strong>Portfolio project: compress, structure and evolve one flow dataset — autoencoders, a VAE and a Koopman autoencoder.</strong></p>
-<p>The dataset is a 2-D simulation of viscous flow past two collinear plates at Reynolds number 100: 1,000 snapshots of the velocity (u, v) on a 128 × 64 grid, a state of 16,384 numbers per snapshot. This notebook compresses each snapshot (mean flow removed) into 10 numbers and back, with a dense autoencoder (flatten, 512 hidden units, 10 latent numbers; 16.8 million weights) and a convolutional one (one 3 × 3 convolution with 32 filters and one pooling level; 1.4 million weights), and compares both with POD truncated at 10 modes, the best linear compression of the same size. It shows what the latent "modes" of an autoencoder are and are not, and which architecture suits which job. I solve its three exercises (latent size, a deeper convolutional autoencoder, latent trajectories against POD coefficients), repeat every training with the seeds 0, 1 and 2, and record a training animation.</p>
+<p>The dataset is a 2-D simulation of viscous flow past two collinear plates at Reynolds number 100: 1,000 snapshots of the velocity (u, v) on a 128 × 64 grid, a state of 16,384 numbers per snapshot. This notebook compresses each snapshot (mean flow removed) into 10 numbers and back, with a dense autoencoder (flatten, 512 hidden units, 10 latent numbers; 16.8 million weights) and a convolutional one (one 3 × 3 convolution with 32 filters and one pooling level; 1.4 million weights), and compares both with POD truncated at 10 modes, the best linear compression of the same size. It shows what the latent "modes" of an autoencoder are and are not, and which architecture suits which job. I solve its three experiments (latent size, a deeper convolutional autoencoder, latent trajectories against POD coefficients), repeat every training with the seeds 0, 1 and 2, and record a training animation.</p>
 <p><strong>How it connects.</strong> Stages 2 and 3 reload the same dataset and re-implement this notebook's dense builders, split, error measure and POD; Stage 4 compares POD, autoencoders and a VAE across latent sizes and runs the rollouts.</p>
 <p><strong>About the outputs.</strong> The outputs below come from my single run (Apple M3 Max, 2026-10-13), on the CPU only: the convolutional networks train about 17 times slower per step on the Apple GPU, and mixing devices in one process slowed them further, so the whole notebook runs on the CPU (dense 6 minutes, convolutional 10 minutes). Afterwards I changed only text for this repository: this cell and the paths cell, the path lines (dataset from <code>../release_assets/</code>, models to <code>../models/01_autoencoders_and_pod/</code>, tables to <code>../results/01_autoencoders_and_pod/</code>, animation to <code>../animations/01_*</code>), comments, labels and printed text. The POD error is computed on all snapshots while the autoencoders are scored on the validation snapshots; Stage 4 adds POD fitted on the training snapshots only.</p>
 </div>
@@ -26881,7 +26881,7 @@ validation snapshot.</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="16.-Exercises">16. Exercises<a class="anchor-link" href="#16.-Exercises">¶</a></h1><h2 id="Exercise-1----Change-the-latent-dimension">Exercise 1 -- Change the latent dimension<a class="anchor-link" href="#Exercise-1----Change-the-latent-dimension">¶</a></h2><p>Try:</p>
+<h1 id="16.-Experiments">16. Experiments<a class="anchor-link" href="#16.-Experiments">¶</a></h1><h2 id="Experiment-1----Change-the-latent-dimension">Experiment 1 -- Change the latent dimension<a class="anchor-link" href="#Experiment-1----Change-the-latent-dimension">¶</a></h2><p>Try:</p>
 <div class="highlight"><pre><span></span><span class="n">latent_dim</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">latent_dim</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">latent_dim</span> <span class="o">=</span> <span class="mi">20</span>
@@ -26891,12 +26891,12 @@ value. How does the reconstruction error change relative to the POD baseline wit
 the same number of modes? Is the advantage of the autoencoders bigger for small or
 large <code>latent_dim</code>?</p>
 <hr/>
-<h2 id="Exercise-2----Deeper-convolutional-autoencoder">Exercise 2 -- Deeper convolutional autoencoder<a class="anchor-link" href="#Exercise-2----Deeper-convolutional-autoencoder">¶</a></h2><p>Add a second <code>encoder_block()</code>/<code>decoder_block()</code> pair (as in a U-Net) to
+<h2 id="Experiment-2----Deeper-convolutional-autoencoder">Experiment 2 -- Deeper convolutional autoencoder<a class="anchor-link" href="#Experiment-2----Deeper-convolutional-autoencoder">¶</a></h2><p>Add a second <code>encoder_block()</code>/<code>decoder_block()</code> pair (as in a U-Net) to
 <code>create_conv_encoder()</code> / <code>create_conv_decoder()</code>, so the field is pooled twice
 before reaching the dense latent layer. Compare training time and reconstruction
 error against the single-block version used in Section 15-16.</p>
 <hr/>
-<h2 id="Exercise-3----Latent-space-interpretability">Exercise 3 -- Latent space interpretability<a class="anchor-link" href="#Exercise-3----Latent-space-interpretability">¶</a></h2><p>For the trained dense autoencoder, encode the full dataset <code>v</code> into its latent
+<h2 id="Experiment-3----Latent-space-interpretability">Experiment 3 -- Latent space interpretability<a class="anchor-link" href="#Experiment-3----Latent-space-interpretability">¶</a></h2><p>For the trained dense autoencoder, encode the full dataset <code>v</code> into its latent
 representation <code>z = encoder.predict(v)</code> and plot <code>z[:, 0]</code> against <code>z[:, 1]</code> over
 time (as a trajectory). Compare this trajectory to the first two POD temporal
 coefficients (<code>vh[0]</code>, <code>vh[1]</code> from Section 11). Are the two representations
@@ -26911,7 +26911,7 @@ qualitatively similar?</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Exercise-solutions">Exercise solutions<a class="anchor-link" href="#Exercise-solutions">¶</a></h1><p>The three exercises of Section 16, solved with the notebook's own data (<code>v</code>, <code>v_trn</code>, <code>v_val</code>), builders (<code>create_dense_encoder/decoder</code>, <code>create_conv_encoder/decoder</code>), error measure (<code>relative_reconstruction_error</code>) and training recipe (Adam 1e-3, MSE, batch 32, early stopping patience 20, learning-rate halving patience 8). <strong>Exercise budget (mine):</strong> exercise models train for at most 100 epochs (the base allows 600 with its early stopping), two latent sizes in Exercise 1, and the base single-block model as the reference in Exercise 2. Errors are mean relative $\ell_2$ errors on the validation snapshots, reported as the mean over the two velocity components. Compute plan: five autoencoder trainings on the CPU, under 25 minutes.</p>
+<h1 id="Experiment-solutions">Experiment solutions<a class="anchor-link" href="#Experiment-solutions">¶</a></h1><p>The three experiments of Section 16, solved with the notebook's own data (<code>v</code>, <code>v_trn</code>, <code>v_val</code>), builders (<code>create_dense_encoder/decoder</code>, <code>create_conv_encoder/decoder</code>), error measure (<code>relative_reconstruction_error</code>) and training recipe (Adam 1e-3, MSE, batch 32, early stopping patience 20, learning-rate halving patience 8). <strong>Experiment budget (mine):</strong> experiment models train for at most 100 epochs (the base allows 600 with its early stopping), two latent sizes in Experiment 1, and the base single-block model as the reference in Experiment 2. Errors are mean relative $\ell_2$ errors on the validation snapshots, reported as the mean over the two velocity components. Compute plan: five autoencoder trainings on the CPU, under 25 minutes.</p>
 </div>
 </div>
 </div>
@@ -26953,7 +26953,7 @@ qualitatively similar?</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exercise-1-%E2%80%94-solution">Exercise 1 — solution<a class="anchor-link" href="#Exercise-1-%E2%80%94-solution">¶</a></h2><p>Dense and convolutional autoencoders rebuilt and retrained for <code>latent_dim</code> = 2 and 20 (the notebook's <code>latent_dim = 10</code> results are added from Sections 10 and 15–16), compared with POD truncated at the same rank. This notebook has no Koopman autoencoder: it is built in Stage 3 (Koopman operator), whose Exercise 5 sweeps the latent dimension for prediction, so it is not repeated here.</p>
+<h2 id="Experiment-1-%E2%80%94-solution">Experiment 1 — solution<a class="anchor-link" href="#Experiment-1-%E2%80%94-solution">¶</a></h2><p>Dense and convolutional autoencoders rebuilt and retrained for <code>latent_dim</code> = 2 and 20 (the notebook's <code>latent_dim = 10</code> results are added from Sections 10 and 15–16), compared with POD truncated at the same rank. This notebook has no Koopman autoencoder: it is built in Stage 3 (Koopman operator), whose Experiment 5 sweeps the latent dimension for prediction, so it is not repeated here.</p>
 </div>
 </div>
 </div>
@@ -27039,7 +27039,7 @@ qualitatively similar?</p>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exercise-2-%E2%80%94-solution">Exercise 2 — solution<a class="anchor-link" href="#Exercise-2-%E2%80%94-solution">¶</a></h2><p>A deeper convolutional autoencoder: two convolution + max-pooling blocks (32 then 64 filters, the U-Net pattern of doubling filters at each level) before the dense latent layer, mirrored in the decoder by two convolution + upsampling blocks. Same <code>latent_dim = 10</code> and training recipe; compared with the single-block model of the base on error, parameters and training time.</p>
+<h2 id="Experiment-2-%E2%80%94-solution">Experiment 2 — solution<a class="anchor-link" href="#Experiment-2-%E2%80%94-solution">¶</a></h2><p>A deeper convolutional autoencoder: two convolution + max-pooling blocks (32 then 64 filters, the U-Net pattern of doubling filters at each level) before the dense latent layer, mirrored in the decoder by two convolution + upsampling blocks. Same <code>latent_dim = 10</code> and training recipe; compared with the single-block model of the base on error, parameters and training time.</p>
 </div>
 </div>
 </div>
@@ -27105,7 +27105,7 @@ Result (Exercise 2): d=10 relative error single block (base run): 0.4322 (1,386,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exercise-3-%E2%80%94-solution">Exercise 3 — solution<a class="anchor-link" href="#Exercise-3-%E2%80%94-solution">¶</a></h2><p>The notebook's dense encoder applied to the whole time series gives a latent trajectory; its first two components are plotted against time and against each other next to the first two POD temporal coefficients (<code>vh[0]</code>, <code>vh[1]</code>). Similarity is quantified by the largest absolute correlation between any latent component and each POD coefficient, and by the share of the latent trajectory's variance that a linear map from the first two POD coefficients explains.</p>
+<h2 id="Experiment-3-%E2%80%94-solution">Experiment 3 — solution<a class="anchor-link" href="#Experiment-3-%E2%80%94-solution">¶</a></h2><p>The notebook's dense encoder applied to the whole time series gives a latent trajectory; its first two components are plotted against time and against each other next to the first two POD temporal coefficients (<code>vh[0]</code>, <code>vh[1]</code>). Similarity is quantified by the largest absolute correlation between any latent component and each POD coefficient, and by the share of the latent trajectory's variance that a linear map from the first two POD coefficients explains.</p>
 </div>
 </div>
 </div>
@@ -27161,10 +27161,10 @@ Result (Exercise 2): d=10 relative error single block (base run): 0.4322 (1,386,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Summary-of-the-exercise-solutions">Summary of the exercise solutions<a class="anchor-link" href="#Summary-of-the-exercise-solutions">¶</a></h2><ul>
-<li><strong>Exercise 1:</strong> error of POD, dense and convolutional autoencoders for d = 2, 5, 10, 20.</li>
-<li><strong>Exercise 2:</strong> one versus two pooling blocks in the convolutional autoencoder.</li>
-<li><strong>Exercise 3:</strong> how closely the dense autoencoder's latent trajectory follows the leading POD coefficients.</li>
+<h2 id="Summary-of-the-experiment-solutions">Summary of the experiment solutions<a class="anchor-link" href="#Summary-of-the-experiment-solutions">¶</a></h2><ul>
+<li><strong>Experiment 1:</strong> error of POD, dense and convolutional autoencoders for d = 2, 5, 10, 20.</li>
+<li><strong>Experiment 2:</strong> one versus two pooling blocks in the convolutional autoencoder.</li>
+<li><strong>Experiment 3:</strong> how closely the dense autoencoder's latent trajectory follows the leading POD coefficients.</li>
 </ul>
 <p>The numbers are those printed in the <code>Result</code> lines above.</p>
 </div>
@@ -27249,7 +27249,7 @@ Result (Exercise 2): d=10 relative error single block (base run): 0.4322 (1,386,
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Three-seed-repeats">Three-seed repeats<a class="anchor-link" href="#Three-seed-repeats">¶</a></h1><p>Every training of 15 minutes or less is repeated with the seeds 0, 1 and 2. <strong>Seed 0 is the base run</strong>: the notebook's own trainings above (seeds set in the import cell) and the exercise solutions (<code>seed=0</code>). For seeds 1 and 2, <code>tf.keras.utils.set_random_seed(seed)</code> sets the initial weights and the order of the training batches; data, split, settings and devices are unchanged. A training whose base run took longer than 15 minutes (timed by the hook) is not repeated, and the summary says so. One cell per seed, then a summary (mean, standard deviation, minimum, maximum of the validation relative error, mean over u and v).</p>
+<h1 id="Three-seed-repeats">Three-seed repeats<a class="anchor-link" href="#Three-seed-repeats">¶</a></h1><p>Every training of 15 minutes or less is repeated with the seeds 0, 1 and 2. <strong>Seed 0 is the base run</strong>: the notebook's own trainings above (seeds set in the import cell) and the experiment solutions (<code>seed=0</code>). For seeds 1 and 2, <code>tf.keras.utils.set_random_seed(seed)</code> sets the initial weights and the order of the training batches; data, split, settings and devices are unchanged. A training whose base run took longer than 15 minutes (timed by the hook) is not repeated, and the summary says so. One cell per seed, then a summary (mean, standard deviation, minimum, maximum of the validation relative error, mean over u and v).</p>
 </div>
 </div>
 </div>
